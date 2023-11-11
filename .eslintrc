@@ -4,5 +4,6 @@
   },
   "parserOptions": {
     "ecmaVersion": 8
-  }
+  },
+  "plugins": ["jest"]
 }

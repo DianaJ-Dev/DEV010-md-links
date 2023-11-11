@@ -10,9 +10,12 @@
     "commit": "1e61f863787ca573e7e7235dfba9b94c0a4efae3"
   },
   "devDependencies": {
-    "eslint": "^8.51.0",
+    "eslint": "^8.0.1",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.28.1",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^16.2.0",
+    "eslint-plugin-promise": "^6.0.0",
     "jest": "^29.7.0"
   },
   "scripts": {
@@ -20,6 +23,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "axios": "^1.6.0"
+    "axios": "^1.6.0",
+    "chalk": "^5.3.0",
+    "kleur": "^4.1.5"
+  },
+  "bin": {
+    "mdlinks2d": "./cli.js"
   }
 }
