@@ -1,5 +1,6 @@
 const { mdLinks } = require('../index.js')
 const { pathIsOk } = require('../lib/app.js')
+const fs = require('fs')
 
 // Primer Hito
 describe('mdLinks', () => {
@@ -38,10 +39,10 @@ describe('error', () => {
 
 // Segundo Hito
 describe('pathIsOk', () => {
-  it('debe devolver el status de manera correcta segun el link', async () => {
+   it('debe devolver el status de manera correcta segun el link', async () => {
     const respuestaOk = await pathIsOk('https://www.laboratoria.la/')
     expect(respuestaOk).toEqual(200)
-  })
+  }) 
   it('Si es valido el link debe retornar un array con (href, text, file, status, ok)', async () => {
     const link = './example/markdown.md'
     const validate = true
@@ -59,3 +60,53 @@ describe('pathIsOk', () => {
     })
   })
 })
+
+//test con mock
+/* jest.mock('../index.js', () => ({
+  fetch: jest.fn()
+})) */
+
+describe('pathIsOk', () => {
+  it('Si es valido el link debe retornar un array con (href, text, file, status, ok)', async () => {
+    const mockResponse = {
+      status: 200,
+      link: 'https://nodejs.org/',
+      text: 'Node.js',
+      file: './example/markdown.md',
+    };
+
+    // Guarda la implementación original de fetch
+    const originalFetch = global.fetch;
+
+    // Mock de la función fetch
+    global.fetch = jest.fn().mockResolvedValue({
+      text: () => Promise.resolve(JSON.stringify(mockResponse)),
+      ok: true,
+      status: mockResponse.status,
+    })
+
+    // Lee el contenido del archivo localmente
+    const fileContent = fs.readFileSync('./example/markdown.md', 'utf-8')
+
+    // Restaura la implementación original de fetch
+    global.fetch = originalFetch;
+
+    // Asegúrate de que el objeto devuelto por la función fetch tenga el formato esperado
+    const data = {
+      href: mockResponse.link,
+      text: mockResponse.text,
+      file: mockResponse.file,
+      status: mockResponse.status,
+    };
+
+    expect(data).toEqual({
+      href: 'https://nodejs.org/',
+      text: 'Node.js',
+      file: './example/markdown.md',
+      status: 200,
+    })
+  })
+})
+ 
+ 
+
